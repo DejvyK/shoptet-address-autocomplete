@@ -17,11 +17,12 @@ Integrovaný systém pro automatické doplňování adres, validaci IČO a konta
 
 ### ✉️ Validátor kontaktů
 - Kontrola formátu e-mailové adresy
-- Validace telefonních čísel (CZ/SK)
+- kontrola formátu telefonních čísel (CZ/SK)
 
 ## Instalace
 
-1. Získejte API klíč pro Mapy.cz na https://api.mapy.cz/
+1. Získejte AP
+I klíč pro Mapy.cz na https://api.mapy.cz/
 2. V souboru `naseptavac-shoptet.js` nahraďte `YOUR_MAPY_CZ_API_KEY` vaším klíčem
 3. Vložte skript do šablony Shoptetu (stránka objednávky - krok 2)
 
