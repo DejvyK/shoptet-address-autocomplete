@@ -30,8 +30,7 @@ I klíč pro Mapy.cz na https://api.mapy.cz/
 
 ```javascript
 // Základní použití
-const API_KEY = 'váš_api_klíč';
-window.dkralAutocomplete = new DKralSeznamAddressAutocomplete(API_KEY, 5);
+ const API_KEY = 'YOUR_MAPY_CZ_API_KEY'; // Získejte klíč na https://api.mapy.cz/
 ```
 
 ## Kompatibilita
@@ -42,4 +41,6 @@ window.dkralAutocomplete = new DKralSeznamAddressAutocomplete(API_KEY, 5);
 
 ## Licence
 
-Proprietární software pro použití na platformě Shoptet.
+MIT License - viz [LICENSE](LICENSE) soubor nebo hlavička v kódu.
+
+Software je poskytován zdarma pro jakékoliv použití včetně komerčního.
