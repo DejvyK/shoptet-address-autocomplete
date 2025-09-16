@@ -25,6 +25,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+(function() {
+  'use strict';
+
+  // Okamžitá kontrola stránky - pokud nejsme na správné URL, skript se vůbec nenačte
+  const isCorrectPage = () => {
+    const p = location.pathname;
+    return p === '/objednavka/krok-2/' || p.includes('objednavka/krok-2');
+  };
+
+  if (!isCorrectPage()) {
+    console.log('[Shoptet Autocomplete] Skript je aktivní pouze na stránce objednávky (krok 2)');
+    return; // Ukončí načítání - žádné třídy se nevytvoří
+  }
+
 class DKralSeznamAddressAutocomplete {
   constructor(apiKey, maxUsagePerSession = 5, mappings) {
     this.suggestConfig = { lang: 'cs', limit: 7, types: ['regional.address','regional.street','regional.municipality']/* , locality: ['cz','sk'] */ };
@@ -424,8 +439,6 @@ class DKralSeznamAddressAutocomplete {
   incrementUsageCount() { this.usageCount++; sessionStorage.setItem('dkralSeznamAutocompleteUsage', String(this.usageCount)); this.updateUsageIndicator(); }
 }
 
-/* ---------- Page guard ---------- */
-function dkralIsCorrectPage() { const p = location.pathname; return p === '/objednavka/krok-2/' || p.includes('objednavka/krok-2'); }
 
 /* --------------------------------------------------------------------------------
  * ARES VALIDÁTOR (bez našeptávače) – vyplní firemní údaje a vykreslí fajfky
@@ -852,7 +865,6 @@ class DKralContactValidator {
 
 /* ---------- Mount ---------- */
 document.addEventListener('DOMContentLoaded', () => {
-  if (!dkralIsCorrectPage()) return;
 
   const API_KEY = 'YOUR_MAPY_CZ_API_KEY'; // Získejte klíč na https://api.mapy.cz/
 
@@ -880,6 +892,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ui: window.dkralAutocomplete
   });
 });
+
+})(); // Konec IIFE
 
 
 

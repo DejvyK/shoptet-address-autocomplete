@@ -21,10 +21,11 @@ Integrovaný systém pro automatické doplňování adres, validaci IČO a konta
 
 ## Instalace
 
-1. Získejte AP
-I klíč pro Mapy.cz na https://api.mapy.cz/
+1. Získejte API klíč pro Mapy.cz na https://api.mapy.cz/
 2. V souboru `naseptavac-shoptet.js` nahraďte `YOUR_MAPY_CZ_API_KEY` vaším klíčem
-3. Vložte skript do šablony Shoptetu (stránka objednávky - krok 2)
+3. Vložte skript do šablony Shoptetu v administraci:
+   - Administrace → Vzhled a zobrazení → Editor šablon
+   - Vložte `<script src="cesta/k/naseptavac-shoptet.js"></script>` před `</body>`
 
 ## Konfigurace
 
@@ -38,6 +39,21 @@ I klíč pro Mapy.cz na https://api.mapy.cz/
 - Shoptet platforma
 - Moderní prohlížeče (Chrome, Firefox, Safari, Edge)
 - Responsivní design
+
+## Výkon a optimalizace
+
+- Skript se načítá pouze na stránce objednávky (krok 2)
+- Využívá cache pro opakované vyhledávání
+- Debouncing vstupů (300ms) pro snížení počtu API volání
+
+## Přispívání
+
+Příspěvky jsou vítány! Prosím:
+1. Forkněte repozitář
+2. Vytvořte feature branch (`git checkout -b feature/nova-funkce`)
+3. Commitujte změny (`git commit -am 'Přidání nové funkce'`)
+4. Pushněte branch (`git push origin feature/nova-funkce`)
+5. Vytvořte Pull Request
 
 ## Licence
 
