@@ -1,0 +1,18 @@
+# Vývojové soubory
+naseptavac.js
+naseptavac-atria.js
+naseptavac-refactored.js
+naseptavac-alternate.js
+
+# IDE
+.vscode/
+.idea/
+
+# Systémové soubory
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.bak
+*~
