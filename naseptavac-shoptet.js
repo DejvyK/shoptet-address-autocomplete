@@ -36,7 +36,6 @@
   };
 
   if (!isCorrectPage()) {
-    console.log('[Shoptet Autocomplete] Skript je aktivní pouze na stránce objednávky (krok 2)');
     return; // Ukončí načítání - žádné třídy se nevytvoří
   }
 
