@@ -20,7 +20,7 @@ Integrovaný systém pro automatické doplňování adres, validaci IČO a konta
 
 ### ✉️ Validátor kontaktů
 - Kontrola formátu e-mailové adresy
-- kontrola formátu telefonních čísel (CZ/SK)
+- Kontrola formátu telefonních čísel (CZ/SK)
 
 ## Instalace
 
