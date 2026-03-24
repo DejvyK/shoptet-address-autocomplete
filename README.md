@@ -1,4 +1,7 @@
+Co-authored-by: David Kral alter ego
+
 # Shoptet Adresní Našeptávač
+
 
 Integrovaný systém pro automatické doplňování adres, validaci IČO a kontaktních údajů pro e-commerce platformu Shoptet.
 
@@ -37,7 +40,7 @@ Integrovaný systém pro automatické doplňování adres, validaci IČO a konta
 
 ## Kompatibilita
 
-- Shoptet platforma
+- Shoptet platforma (verze 3.0.0+)
 - Moderní prohlížeče (Chrome, Firefox, Safari, Edge)
 - Responsivní design
 
