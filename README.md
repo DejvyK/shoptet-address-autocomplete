@@ -1,3 +1,5 @@
+Co-authored-by: David Kral alter ego
+
 # Shoptet Adresní Našeptávač
 
 
