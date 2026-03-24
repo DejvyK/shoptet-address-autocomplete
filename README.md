@@ -1,5 +1,6 @@
 # Shoptet Adresní Našeptávač
 
+
 Integrovaný systém pro automatické doplňování adres, validaci IČO a kontaktních údajů pro e-commerce platformu Shoptet.
 
 ## Funkce
