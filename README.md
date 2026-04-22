@@ -2,8 +2,25 @@ Co-authored-by: David Kral alter ego
 
 # Shoptet Adresní Našeptávač
 
-
 Integrovaný systém pro automatické doplňování adres, validaci IČO a kontaktních údajů pro e-commerce platformu Shoptet.
+
+## Recommended for production
+
+Podporovaná `production installation` pro živý Shoptet obchod používá `backend proxy`.
+
+Tok požadavku pro produkci je:
+
+1. Shoptet stránka načte `browser script` `naseptavac-shoptet.js`
+2. `browser script` volá backend endpoint obchodníka `/suggest`
+3. `backend proxy` doplní `MAPY_CZ_API_KEY` na serveru a odešle požadavek do Mapy.cz
+
+Pro produkci proto platí:
+
+- prohlížeč nevolá `https://api.mapy.cz/v1/suggest` přímo
+- `MAPY_CZ_API_KEY` existuje jen v backendu, nikdy ne ve storefront JavaScriptu
+- podporovaná cesta pro živý obchod zahrnuje CORS allowlist přes `ALLOWED_ORIGINS` a rate limiting v backendu
+
+Pokud provozujete live shop, začněte vždy `production installation via backend proxy`. Detailní deployment postup je v [backend/README.md](backend/README.md).
 
 ## Funkce
 
@@ -22,21 +39,41 @@ Integrovaný systém pro automatické doplňování adres, validaci IČO a konta
 - Kontrola formátu e-mailové adresy
 - Kontrola formátu telefonních čísel (CZ/SK)
 
-## Instalace
+## Production installation
 
-1. Získejte API klíč pro Mapy.cz na https://api.mapy.cz/
-2. V souboru `naseptavac-shoptet.js` nahraďte `YOUR_MAPY_CZ_API_KEY` vaším klíčem
-3. Vložení do Shoptetu:
-   - Stáhněte si soubor naseptavac-shoptet.js , pomocí správce souborů ho vložte do libovolné složky a pravým kliknutím si nechejte zobrazit URL adresu --> tu si zkopírujte
-   - Administrace → Vzhled a obsah → Editor --> HTML kód --> zápatí 
-   - Vložte ---->        <script src="URL_ADRESA_KTEROU_JSTE_SI_ULOZILI"></script>
+Pro produkční nasazení nepoužívejte přímé vložení `Mapy.cz API key` do `browser script`.
+
+1. Nasaďte `backend proxy` podle [backend/README.md](backend/README.md).
+2. V backendu nastavte `MAPY_CZ_API_KEY`, `ALLOWED_ORIGINS` a další proměnné v `backend/.env`.
+3. Upravte `browser script`, aby volal váš backend `/suggest` endpoint místo přímého volání `https://api.mapy.cz/v1/suggest`.
+4. Nahrajte `naseptavac-shoptet.js` do Shoptetu a vložte ho do zápatí:
+   - nahrajte `naseptavac-shoptet.js` do libovolné složky
+   - zkopírujte výslednou URL souboru
+   - v administraci přejděte na `Vzhled a obsah -> Editor -> HTML kód -> zápatí`
+   - vložte `<script src="URL_ADRESA_KTEROU_JSTE_SI_ULOZILI"></script>`
+
+Produkční `browser request target` je vždy váš backend `/suggest` endpoint. `backend proxy` pak do Mapy.cz přeposílá jen povolené parametry `query`, `lang`, `limit`, `type`, `locality`.
 
 ## Konfigurace
 
-```javascript
-// Základní použití
- const API_KEY = 'YOUR_MAPY_CZ_API_KEY'; // Získejte klíč na https://api.mapy.cz/
-```
+Pro produkci konfigurujte v `browser script` pouze backend base URL nebo přímo `/suggest` URL vašeho nasazení. `Mapy.cz API key` nastavujte jen na backendu.
+
+Příklady:
+
+- lokální vývoj: `http://localhost:3001/suggest`
+- produkce: `https://vas-backend.example/suggest`
+
+## Migration note
+
+Pokud jste vycházeli ze starší verze README, migrujte instalaci takto:
+
+- přestaňte vkládat `MAPY_CZ_API_KEY` do `naseptavac-shoptet.js`
+- přesměrujte `browser script` na vlastní backend `/suggest` endpoint
+- na backendu nastavte `ALLOWED_ORIGINS` na domény vašeho Shoptet storefrontu
+
+## Development / quick demo only
+
+Přímé browser volání Mapy.cz s klíčem vloženým do JavaScriptu ponechávejte maximálně pro krátký lokální test nebo rychlé demo. Není to doporučená ani podporovaná `production installation`, protože vystavuje `Mapy.cz API key` v klientském kódu.
 
 ## Kompatibilita
 

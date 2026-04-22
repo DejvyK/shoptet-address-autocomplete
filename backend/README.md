@@ -1,6 +1,16 @@
 # Backend Proxy
 
-Production-oriented Node.js proxy for the Shoptet address autocomplete integration. It keeps the Mapy.cz API key on the server and forwards only a validated subset of query parameters to `https://api.mapy.cz/v1/suggest`.
+This document describes the supported `production installation` via `backend proxy`.
+
+For a live shop, the `browser script` should call your merchant-managed `/suggest` endpoint, not `https://api.mapy.cz/v1/suggest` directly. The `backend proxy` is the only place where `MAPY_CZ_API_KEY` exists in production.
+
+Production request flow:
+
+1. Shoptet loads the `browser script`
+2. The `browser script` calls your backend `/suggest` endpoint
+3. The `backend proxy` appends `MAPY_CZ_API_KEY` server-side and forwards the request to Mapy.cz
+
+This backend keeps the Mapy.cz API key on the server, applies CORS allowlisting through `ALLOWED_ORIGINS`, rate limits `/suggest`, and forwards only a validated subset of query parameters to `https://api.mapy.cz/v1/suggest`.
 
 ## Features
 
@@ -74,18 +84,18 @@ curl "http://localhost:3001/suggest?query=Praha&limit=5"
 
 ## Frontend Update
 
-Update the frontend so it calls this backend instead of `https://api.mapy.cz/v1/suggest` directly from the browser.
+Update the `browser script` so it calls this `backend proxy` instead of `https://api.mapy.cz/v1/suggest` directly from the browser.
 
 Current frontend flow:
 
 - Browser calls Mapy.cz directly
-- API key is exposed in client-side JavaScript
+- `MAPY_CZ_API_KEY` is exposed in client-side JavaScript
 
 Recommended new flow:
 
-- Browser calls your backend endpoint, for example `/suggest?query=Praha&limit=5`
-- Backend injects `MAPY_CZ_API_KEY` server-side
-- Backend forwards only these whitelisted params: `query`, `lang`, `limit`, `type`, `locality`
+- `browser script` calls your backend endpoint, for example `/suggest?query=Praha&limit=5`
+- `backend proxy` injects `MAPY_CZ_API_KEY` server-side
+- `backend proxy` forwards only these whitelisted params: `query`, `lang`, `limit`, `type`, `locality`
 
 For local development, a frontend request should point to:
 
@@ -98,6 +108,12 @@ For production, point the frontend to the deployed backend URL, for example:
 ```text
 https://your-backend.example/suggest
 ```
+
+Migration note for existing users:
+
+- Stop embedding `MAPY_CZ_API_KEY` in storefront JavaScript
+- Repoint the `browser script` to your deployed backend `/suggest` endpoint
+- Set `ALLOWED_ORIGINS` to the storefront origins that should be allowed to call the proxy
 
 ## Notes
 
