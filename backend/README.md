@@ -3,6 +3,7 @@
 This document describes the supported `production installation` via `backend proxy`.
 
 For a live shop, the `browser script` should call your merchant-managed `/suggest` endpoint, not `https://api.mapy.cz/v1/suggest` directly. The `backend proxy` is the only place where `MAPY_CZ_API_KEY` exists in production.
+In the current repository state, `naseptavac-shoptet.js` still calls Mapy.cz directly, so moving to this `production installation` requires adapting that browser-side request in the script.
 
 Production request flow:
 
@@ -85,6 +86,7 @@ curl "http://localhost:3001/suggest?query=Praha&limit=5"
 ## Frontend Update
 
 Update the `browser script` so it calls this `backend proxy` instead of `https://api.mapy.cz/v1/suggest` directly from the browser.
+The current repository does not yet ship a standalone backend-endpoint setting, so this is a small code adaptation in `naseptavac-shoptet.js`, not a documented toggle.
 
 Current frontend flow:
 

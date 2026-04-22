@@ -22,6 +22,7 @@ Pro produkci proto platí:
 
 Pokud provozujete live shop, začněte vždy `production installation via backend proxy`. Detailní deployment postup je v [backend/README.md](backend/README.md).
 Pokud backend hosting nemáte, přímé browser volání berte pouze jako `Development / quick demo only`, ne jako podporovanou produkční cestu.
+Aktuální verze repozitáře ale ještě nedodává samostatný přepínač backend endpointu v `naseptavac-shoptet.js`, takže produkční nasazení vyžaduje upravit volání v tomto souboru.
 
 ## Funkce
 
@@ -46,7 +47,7 @@ Pro produkční nasazení nepoužívejte přímé vložení `Mapy.cz API key` do
 
 1. Nasaďte `backend proxy` podle [backend/README.md](backend/README.md).
 2. V backendu nastavte `MAPY_CZ_API_KEY`, `ALLOWED_ORIGINS` a další proměnné v `backend/.env`.
-3. Upravte `browser script`, aby volal váš backend `/suggest` endpoint místo přímého volání `https://api.mapy.cz/v1/suggest`.
+3. Upravte aktuální `browser script`, aby místo přímého volání `https://api.mapy.cz/v1/suggest` volal váš backend `/suggest` endpoint.
 4. Nahrajte `naseptavac-shoptet.js` do Shoptetu a vložte ho do zápatí:
    - nahrajte `naseptavac-shoptet.js` do libovolné složky
    - zkopírujte výslednou URL souboru
@@ -57,19 +58,21 @@ Produkční `browser request target` je vždy váš backend `/suggest` endpoint.
 
 ## Konfigurace
 
-Pro produkci konfigurujte v `browser script` pouze backend base URL nebo přímo `/suggest` URL vašeho nasazení. `Mapy.cz API key` nastavujte jen na backendu.
+V aktuálním stavu repozitáře `naseptavac-shoptet.js` stále obsahuje přímé volání Mapy.cz a placeholder `API_KEY`. Repo zatím neposkytuje hotový backend base URL přepínač.
+
+Pro `production installation` proto upravte přímo volání v `naseptavac-shoptet.js` tak, aby `browser script` posílal request na váš backend `/suggest` endpoint. `Mapy.cz API key` nastavujte jen na backendu.
 
 Příklady:
 
-- lokální vývoj: `http://localhost:3001/suggest`
-- produkce: `https://vas-backend.example/suggest`
+- lokální vývojový target po úpravě skriptu: `http://localhost:3001/suggest`
+- produkční target po úpravě skriptu: `https://vas-backend.example/suggest`
 
 ## Migration note
 
 Pokud jste vycházeli ze starší verze README, migrujte instalaci takto:
 
 - přestaňte vkládat `MAPY_CZ_API_KEY` do `naseptavac-shoptet.js`
-- přesměrujte `browser script` na vlastní backend `/suggest` endpoint
+- nahraďte přímé volání Mapy.cz v `naseptavac-shoptet.js` vlastním backend `/suggest` endpointem
 - na backendu nastavte `ALLOWED_ORIGINS` na domény vašeho Shoptet storefrontu
 
 ## Development / quick demo only
