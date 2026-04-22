@@ -21,6 +21,7 @@ Pro produkci proto platí:
 - podporovaná cesta pro živý obchod zahrnuje CORS allowlist přes `ALLOWED_ORIGINS` a rate limiting v backendu
 
 Pokud provozujete live shop, začněte vždy `production installation via backend proxy`. Detailní deployment postup je v [backend/README.md](backend/README.md).
+Pokud backend hosting nemáte, přímé browser volání berte pouze jako `Development / quick demo only`, ne jako podporovanou produkční cestu.
 
 ## Funkce
 
